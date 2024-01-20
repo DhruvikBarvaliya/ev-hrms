@@ -7,7 +7,7 @@ const LeaveRoute = require("./LeaveRoute");
 const ProjectRoute = require("./ProjectRoute");
 
 router.get("/", (req, res) => {
-  res.send(`Welcome To Hrms Portal With Version V1`);
+  res.send(`Welcome To Evenmore Hrms Portal For Leave,Asset and Project Management`);
 });
 
 router.use(

@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get("/", (req, res) => {
-  res.send(`Welcome To Hrms Portal, Currently You are in ${req.app.get('env')} Mode`);
+  res.send(`Welcome To Evenmore Hrms Portal, Currently You are in ${req.app.get('env')} Mode`);
 });
 
 app.use("/ev", indexRouter);
