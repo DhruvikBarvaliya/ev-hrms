@@ -1,5 +1,6 @@
 const AssetModel = require("../Models/AssetModel");
 
+
 module.exports = {
   addAsset: async (req, res) => {
     try {
