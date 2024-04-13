@@ -10,5 +10,6 @@ router.get("/employee/:employee_id", authorize([Role.ADMIN, Role.SUPER_ADMIN,Rol
 router.put("/employee/:employee_id", authorize([Role.ADMIN, Role.SUPER_ADMIN,Role.EMPLOYEE]), EmployeeController.updateEmployee);
 router.put("/employee/:employee_id/:is_active", authorize([Role.ADMIN, Role.SUPER_ADMIN]), EmployeeController.updateEmployeeStatus);
 router.delete("/employee/:employee_id", authorize([Role.ADMIN, Role.SUPER_ADMIN]), EmployeeController.deleteEmployee);
+router.post("/login", EmployeeController.login);
 
 module.exports = router;

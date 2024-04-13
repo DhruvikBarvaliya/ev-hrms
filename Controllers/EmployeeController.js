@@ -1,5 +1,7 @@
 const employeeModel = require("../Models/EmployeeModel");
 const bcrypt = require("bcryptjs");
+const { jwt_key } = require("../Config/Config");
+const jsonwebtoken = require("jsonwebtoken");
 
 module.exports = {
   addEmployee: async (req, res) => {
@@ -25,7 +27,6 @@ module.exports = {
         is_verified,
         status,
         is_active,
-        last_login,
         created_by,
         updated_by,
       } = req.body;
@@ -80,7 +81,6 @@ module.exports = {
           is_verified,
           status,
           is_active,
-          last_login,
           created_by,
           updated_by,
         });
@@ -213,6 +213,43 @@ module.exports = {
       return res
         .status(200)
         .json({ status: true, message: `Employee Deleted Successfully with ID :- ${employee._id}` });
+    } catch (err) {
+      return res
+        .status(500)
+        .json({ status: false, message: 'Server Error', error: err.message || err.toString() });
+    }
+  },
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await employeeModel.findOne({ email: email });
+
+      if (!user) {
+        return res.status(404).json({ status: false, message: "User Not Found" });
+      }
+      if (user.is_active == false) {
+        return res.status(404).json({ status: false, message: "User is Not Active" });
+      }
+      if (user.is_verified == false) {
+        return res.status(404).json({ status: false, message: "User is Not verified" });
+      }
+      let pass = await bcrypt.compare(password, user.password);
+      // if (!pass) {
+      //   return res.status(404).json({ status: false, message: "Password is Incorect" });
+      // }
+      if (user.email == email && pass) {
+        let token = jsonwebtoken.sign(
+          { id: user._id, email: email, role: user.role },
+          jwt_key, {
+          expiresIn: '12h'
+        }
+        );
+        return res.status(200).json({ email, token });
+      } else {
+        return res
+          .status(401)
+          .json({ status: false, message: "Please Provide Valid Email And Password" });
+      }
     } catch (err) {
       return res
         .status(500)
