@@ -50,7 +50,7 @@ const EmployeeSchema = new Schema(
       enum: ["MALE", "FEMALE", "OTHER"],
       default: "MALE",
     },
-    project_id: { type: Schema.Types.ObjectId, ref: "project" },
+    project_name: { type: String, trim: true },
     date_of_birth: { type: Date },
     date_of_hire: { type: Date },
     paid_leave_available: { type: Number, default: 12 },
