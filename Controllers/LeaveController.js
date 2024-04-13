@@ -59,7 +59,7 @@ module.exports = {
         .then((data) => {
           return res
             .status(201)
-            .json({ status: true, message: "Leave Apply Successfully", data });
+            .json({ status: true, message: "Leave Apply Successfully" });
         })
         .catch((error) => {
           return res.status(400).json({ message: error.message, error: error });

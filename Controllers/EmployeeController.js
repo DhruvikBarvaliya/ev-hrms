@@ -30,6 +30,25 @@ module.exports = {
         updated_by,
       } = req.body;
 
+      if (!first_name) {
+        return res
+          .status(400)
+          .json({ status: false, message: "first_name is Required" });
+      }
+      if (!last_name) {
+        return res
+          .status(400)
+          .json({ status: false, message: "last_name is Required" });
+      }
+
+      let full_name;
+
+      if (middle_name) {
+        full_name = `${first_name} ${middle_name} ${last_name}`;
+      } else {
+        full_name = `${first_name} ${last_name}`;
+      }
+
       const salt = await bcrypt.genSalt(10);
       const password = await bcrypt.hash(req.body.password, salt);
 
@@ -43,7 +62,7 @@ module.exports = {
           first_name,
           middle_name,
           last_name,
-          full_name: first_name + " " + middle_name + " " + last_name,
+          full_name: full_name,
           qulification,
           designation,
           reference_name,
@@ -70,7 +89,7 @@ module.exports = {
           .then((data) => {
             return res
               .status(201)
-              .json({ message: "User Created Successfully", data });
+              .json({ message: "User Created Successfully" });
           })
           .catch((error) => {
             return res.status(400).json({ message: error.message, error: error });
@@ -120,6 +139,8 @@ module.exports = {
   updateEmployee: async (req, res) => {
     try {
       const { employee_id } = req.params
+      const { first_name, middle_name, last_name } =
+        req.body;
       const employee_role = await employeeModel.findById({ _id: employee_id }, { role: 1 });
       if (employee_role == "EMPLOYEE") {
         delete req.body.role;
@@ -127,6 +148,24 @@ module.exports = {
         delete req.body.is_active;
         delete req.body.is_verified;
       }
+      let full_name = "";
+
+      if (first_name && middle_name && last_name) {
+        full_name = `${first_name} ${middle_name} ${last_name}`;
+      } else if (first_name && middle_name) {
+        full_name = `${first_name} ${middle_name}`;
+      } else if (middle_name && last_name) {
+        full_name = `${middle_name} ${last_name}`;
+      } else if (first_name && last_name) {
+        full_name = `${first_name} ${last_name}`;
+      } else if (first_name) {
+        full_name = first_name;
+      } else if (middle_name) {
+        full_name = middle_name;
+      } else if (last_name) {
+        full_name = last_name;
+      }
+      req.body.full_name = full_name;
       const employee = await employeeModel.findByIdAndUpdate({ _id: employee_id }, req.body, { new: true });
       if (employee == null) {
         return res

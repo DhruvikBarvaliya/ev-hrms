@@ -12,11 +12,11 @@ router.get("/", (req, res) => {
 
 router.use(
   "/api",
-  AssetRoute,
-  AuthRoute,
+  //AssetRoute,
+  //AuthRoute,
   EmployeeRoute,
   LeaveRoute,
-  ProjectRoute,
+  //ProjectRoute,
 );
 
 module.exports = router;

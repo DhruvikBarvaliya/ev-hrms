@@ -76,11 +76,6 @@ module.exports = {
         .json({ status: false, message: 'Server Error', error: err.message || err.toString() });
     }
   },
-  logout: async (req, res) => {
-    return res
-      .status(404)
-      .json({ status: false, message: "Logout Method Not Found" });
-  },
   changePassword: async (req, res) => {
     try {
       const { email, password, newPassword } = req.body
