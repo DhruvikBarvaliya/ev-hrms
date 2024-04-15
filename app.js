@@ -5,6 +5,7 @@ const cors = require("cors");
 const indexRouter = require("./Routers/index");
 const database = require("./Config/Database");
 
+
 database();
 app.use(cors());
 app.use(express.json());
