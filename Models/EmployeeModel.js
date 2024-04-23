@@ -51,6 +51,7 @@ const EmployeeSchema = new Schema(
       default: "MALE",
     },
     project_name: { type: String, trim: true },
+    team_leader: { type: String, trim: true },
     date_of_birth: { type: Date },
     date_of_hire: { type: Date },
     paid_leave_available: { type: Number, default: 12 },
