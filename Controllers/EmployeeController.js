@@ -103,7 +103,7 @@ module.exports = {
   },
   getAllEmployee: async (req, res) => {
     try {
-      const allEmployee = await employeeModel.find()
+      const allEmployee = await employeeModel.find().select("-password")
       if (allEmployee.length == 0) {
         return res
           .status(404)
@@ -121,7 +121,7 @@ module.exports = {
   getEmployeeById: async (req, res) => {
     try {
       const { employee_id } = req.params
-      const employee = await employeeModel.findById({ _id: employee_id });
+      const employee = await employeeModel.findById({ _id: employee_id }).select("-password");
       if (employee == null) {
         return res
           .status(404)

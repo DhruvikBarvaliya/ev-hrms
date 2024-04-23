@@ -32,7 +32,7 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(port, () => {
-  if (env == 'local') {
+  if (env == 'development') {
     console.log(`Server is Running on Port No :- http://localhost:${port}`);
   } else {
     console.log(`Server is Running on :- https://hrms-dhy1.onrender.com`);
