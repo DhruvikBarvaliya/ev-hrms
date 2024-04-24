@@ -24,14 +24,14 @@ module.exports = {
         updated_by,
       } = req.body;
 
-      if (leave_for == "FIRST_HALF" || leave_for == "SECOND_HALF"  && leave_from != leave_to) {
+      if (leave_for == "FIRST_HALF" || leave_for == "SECOND_HALF" && leave_from != leave_to) {
         return res.status(401).json({ status: false, message: "Start Date And End Date Should Be Same For Half Day Leave" })
       }
       var d1 = new Date(leave_from);
       var d2 = new Date(leave_to);
       var diff = d2.getDay() - d1.getDay()
 
-      let no_of_day = (leave_for == "FULLDAY") ? diff+1 : 0.5;
+      let no_of_day = (leave_for == "FULLDAY") ? diff + 1 : 0.5;
 
       const leaveData = new leaveModel({
         employee_id,
@@ -72,7 +72,11 @@ module.exports = {
   },
   getAllLeave: async (req, res) => {
     try {
-      const allLeave = await leaveModel.find()
+      const limit = parseInt(req.query.limit || 1);
+      const skip = parseInt(req.query.skip || 0)
+      const allLeave = await leaveModel.find().limit(limit).skip(skip);
+      const total = await leaveModel.find().count();
+
       if (allLeave.length == 0) {
         return res
           .status(404)
@@ -80,7 +84,7 @@ module.exports = {
       }
       return res
         .status(200)
-        .json({ status: true, message: "Leave Get Successfully", allLeave });
+        .json({ status: true, total, length: allLeave.length, message: "Leave Get Successfully", allLeave });
     } catch (err) {
       return res
         .status(500)

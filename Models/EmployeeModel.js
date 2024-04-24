@@ -6,7 +6,7 @@ const EmployeeSchema = new Schema(
   {
     role: {
       type: String,
-      enum: ["SUPER_ADMIN", "ADMIN", "EMPLOYEE","INTERN"],
+      enum: ["SUPER_ADMIN", "ADMIN", "EMPLOYEE", "INTERN"],
       default: "EMPLOYEE",
     },
     first_name: { type: String, trim: true },

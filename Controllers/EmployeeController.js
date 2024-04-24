@@ -105,7 +105,10 @@ module.exports = {
   },
   getAllEmployee: async (req, res) => {
     try {
-      const allEmployee = await employeeModel.find().select("-password")
+      const limit = parseInt(req.query.limit || 1);
+      const skip = parseInt(req.query.skip || 0)
+      const allEmployee = await employeeModel.find().select("-password").limit(limit).skip(skip);
+      const total = await employeeModel.find().count();
       if (allEmployee.length == 0) {
         return res
           .status(404)
@@ -113,7 +116,9 @@ module.exports = {
       }
       return res
         .status(200)
-        .json({ status: true, message: "Employee Get Successfully", allEmployee });
+        .json({
+          status: true, total, length: allEmployee.length, message: "Employee Get Successfully", allEmployee
+        });
     } catch (err) {
       return res
         .status(500)
