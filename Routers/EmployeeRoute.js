@@ -11,5 +11,7 @@ router.put("/employee/:employee_id", authorize([Role.ADMIN, Role.SUPER_ADMIN, Ro
 router.put("/employee/:employee_id/:is_active", authorize([Role.ADMIN, Role.SUPER_ADMIN]), EmployeeController.updateEmployeeStatus);
 router.delete("/employee/:employee_id", authorize([Role.ADMIN, Role.SUPER_ADMIN]), EmployeeController.deleteEmployee);
 router.post("/login", EmployeeController.login);
+router.post("/change-password", authorize(), EmployeeController.changePassword);
+
 
 module.exports = router;

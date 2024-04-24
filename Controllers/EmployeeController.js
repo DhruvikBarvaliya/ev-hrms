@@ -263,4 +263,42 @@ module.exports = {
         .json({ status: false, message: 'Server Error', error: err.message || err.toString() });
     }
   },
+
+  changePassword: async (req, res) => {
+    try {
+      const { email, password, newPassword } = req.body;
+      const salt = await bcrypt.genSalt(10);
+      const updatedPassword = await bcrypt.hash(newPassword, salt);
+      const user = await employeeModel.findOne({ email: email });
+
+      if (user.email == email && bcrypt.compare(password, user.password)) {
+        const user = await employeeModel.findOneAndUpdate(
+          { email },
+          { $set: { password: updatedPassword } },
+          { new: true }
+        );
+        return res
+          .status(200)
+          .json({
+            status: true,
+            message: `Password Updated Successfully For Email :- ${email} `,
+          });
+      } else {
+        return res
+          .status(401)
+          .json({
+            status: false,
+            message: "Please Provide Valid Email And Password",
+          });
+      }
+    } catch (err) {
+      return res
+        .status(500)
+        .json({
+          status: false,
+          message: "Server Error",
+          error: err.message || err.toString(),
+        });
+    }
+  },
 };
