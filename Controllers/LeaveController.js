@@ -72,7 +72,7 @@ module.exports = {
   },
   getAllLeave: async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit || 1);
+      const limit = parseInt(req.query.limit || 10);
       const skip = parseInt(req.query.skip || 0)
       const allLeave = await leaveModel.find().limit(limit).skip(skip);
       const total = await leaveModel.find().count();

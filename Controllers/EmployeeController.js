@@ -105,7 +105,7 @@ module.exports = {
   },
   getAllEmployee: async (req, res) => {
     try {
-      const limit = parseInt(req.query.limit || 1);
+      const limit = parseInt(req.query.limit || 10);
       const skip = parseInt(req.query.skip || 0)
       const allEmployee = await employeeModel.find().select("-password").limit(limit).skip(skip);
       const total = await employeeModel.find().count();
