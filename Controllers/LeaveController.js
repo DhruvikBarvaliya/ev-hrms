@@ -119,11 +119,14 @@ module.exports = {
           message: `Leave Not Found With ID :- ${leave_id} `,
         });
       }
-      let kk = { ...leave };
+      leave = { ...leave["_doc"] };
+      leave.fullName = fullName;
+      leave.leaderName = leaderName;
+
       return res.status(200).json({
         status: true,
         message: "Leave Get Successfully",
-        leave: { leave: kk["_doc"], fullName, leaderName },
+        leave,
       });
     } catch (err) {
       return res.status(500).json({
