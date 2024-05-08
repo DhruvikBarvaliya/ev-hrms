@@ -120,8 +120,8 @@ module.exports = {
         });
       }
       leave = { ...leave["_doc"] };
-      leave.fullName = fullName;
-      leave.leaderName = leaderName;
+      leave.full_name = fullName;
+      leave.team_leader = leaderName;
 
       return res.status(200).json({
         status: true,
